@@ -88,13 +88,12 @@ func (bs *blobStore) Put(ctx context.Context, mediaType string, p []byte) (distr
 }
 
 func (bs *blobStore) Enumerate(ctx context.Context, ingester func(dgst digest.Digest) error) error {
-
 	specPath, err := pathFor(blobsPathSpec{})
 	if err != nil {
 		return err
 	}
 
-	err = Walk(ctx, bs.driver, specPath, func(fileInfo driver.FileInfo) error {
+	return bs.driver.Walk(ctx, specPath, func(fileInfo driver.FileInfo) error {
 		// skip directories
 		if fileInfo.IsDir() {
 			return nil
@@ -114,7 +113,6 @@ func (bs *blobStore) Enumerate(ctx context.Context, ingester func(dgst digest.Di
 
 		return ingester(digest)
 	})
-	return err
 }
 
 // path returns the canonical path for the blob identified by digest. The blob
@@ -152,16 +150,6 @@ func (bs *blobStore) readlink(ctx context.Context, path string) (digest.Digest, 
 	}
 
 	return linked, nil
-}
-
-// resolve reads the digest link at path and returns the blob store path.
-func (bs *blobStore) resolve(ctx context.Context, path string) (string, error) {
-	dgst, err := bs.readlink(ctx, path)
-	if err != nil {
-		return "", err
-	}
-
-	return bs.path(dgst)
 }
 
 type blobStatter struct {

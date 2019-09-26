@@ -70,7 +70,7 @@ to the 1.0 registry. Requests from newer clients will route to the 2.0 registry.
 		Removing intermediate container edb84c2b40cb
 		Successfully built 74acc70fa106
 		
-	The commmand outputs its progress until it completes.
+	The command outputs its progress until it completes.
 
 4. Start your configuration with compose.
 
@@ -133,7 +133,7 @@ to the 1.0 registry. Requests from newer clients will route to the 2.0 registry.
 			> Accept: */*
 			> 
 			< HTTP/1.1 200 OK
-			< Content-Type: application/json; charset=utf-8
+			< Content-Type: application/json
 			< Docker-Distribution-Api-Version: registry/2.0
 			< Date: Tue, 14 Apr 2015 22:34:13 GMT
 			< Content-Length: 39
